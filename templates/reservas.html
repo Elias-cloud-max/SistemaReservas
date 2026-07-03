@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Reserva</title>
+</head>
+<body>
+
+    <h2>Crear Reserva</h2>
+
+    <form id="formReserva">
+
+        <input type="number" id="id_cliente" placeholder="ID Cliente"><br><br>
+
+        <input type="number" id="id_mesa" placeholder="ID Mesa"><br><br>
+
+        <input type="date" id="fecha_reserva"><br><br>
+
+        <input type="time" id="hora_reserva"><br><br>
+
+        <input type="number" id="cantidad_personas" placeholder="Personas"><br><br>
+
+        <button type="submit">Guardar</button>
+
+    </form>
+
+    <p id="mensaje"></p>
+
+<script>
+document.getElementById("formReserva").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const data = {
+        id_cliente: document.getElementById("id_cliente").value,
+        id_mesa: document.getElementById("id_mesa").value,
+        fecha_reserva: document.getElementById("fecha_reserva").value,
+        hora_reserva: document.getElementById("hora_reserva").value,
+        cantidad_personas: document.getElementById("cantidad_personas").value
+    };
+
+    const response = await fetch("/reservas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    document.getElementById("mensaje").innerText = result.mensaje || result.error;
+});
+</script>
+
+</body>
+</html>
