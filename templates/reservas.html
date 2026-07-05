@@ -1,55 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
-    <title>Crear Reserva</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema Web de Reservas</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
 </head>
+
 <body>
 
-    <h2>Crear Reserva</h2>
+<div class="contenedor">
 
-    <form id="formReserva">
+    <!-- Encabezado -->
+    <header>
 
-        <input type="number" id="id_cliente" placeholder="ID Cliente"><br><br>
+        <h1>🍽 Sistema Web de Gestión de Reservas</h1>
 
-        <input type="number" id="id_mesa" placeholder="ID Mesa"><br><br>
+        <p>Administración de reservas para restaurante</p>
 
-        <input type="date" id="fecha_reserva"><br><br>
+    </header>
 
-        <input type="time" id="hora_reserva"><br><br>
+    <!-- Estadísticas -->
+    <section class="estadisticas">
 
-        <input type="number" id="cantidad_personas" placeholder="Personas"><br><br>
+        <div class="card-estadistica total">
 
-        <button type="submit">Guardar</button>
+            <h3>📋 Total Reservas</h3>
 
-    </form>
+            <span id="totalReservas">0</span>
 
-    <p id="mensaje"></p>
+        </div>
 
-<script>
-document.getElementById("formReserva").addEventListener("submit", async function(e) {
-    e.preventDefault();
+        <div class="card-estadistica activas">
 
-    const data = {
-        id_cliente: document.getElementById("id_cliente").value,
-        id_mesa: document.getElementById("id_mesa").value,
-        fecha_reserva: document.getElementById("fecha_reserva").value,
-        hora_reserva: document.getElementById("hora_reserva").value,
-        cantidad_personas: document.getElementById("cantidad_personas").value
-    };
+            <h3>✅ Reservas Activas</h3>
 
-    const response = await fetch("/reservas", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+            <span id="reservasActivas">0</span>
 
-    const result = await response.json();
+        </div>
 
-    document.getElementById("mensaje").innerText = result.mensaje || result.error;
-});
-</script>
+        <div class="card-estadistica canceladas">
+
+            <h3>❌ Canceladas</h3>
+
+            <span id="reservasCanceladas">0</span>
+
+        </div>
+
+    </section>
+
+    <!-- Formulario -->
+    <section class="card">
+
+        <h2>Registrar Reserva</h2>
+
+        <form id="formReserva">
+
+            <input type="hidden" id="id_reserva">
+
+            <div class="grid">
+
+                <div>
+
+                    <label>ID Cliente</label>
+
+                    <input type="number" id="id_cliente" required>
+
+                </div>
+
+                <div>
+
+                    <label>ID Mesa</label>
+
+                    <input type="number" id="id_mesa" required>
+
+                </div>
+
+                <div>
+
+                    <label>Fecha</label>
+
+                    <input type="date" id="fecha_reserva" required>
+
+                </div>
+
+                <div>
+
+                    <label>Hora</label>
+
+                    <input type="time" id="hora_reserva" required>
+
+                </div>
+
+                <div>
+
+                    <label>Cantidad de Personas</label>
+
+                    <input type="number" id="cantidad_personas" required>
+
+                </div>
+
+            </div>
+
+          <div class="botones">
+
+    <button type="submit" id="btnGuardar">
+
+        Guardar Reserva
+
+    </button>
+
+    <button
+        type="button"
+        id="btnCancelar"
+        style="display:none;">
+
+        Cancelar
+
+    </button>
+
+</div>
+
+        </form>
+
+        <p id="mensaje"></p>
+
+    </section>
+
+    <!-- Tabla -->
+    <section class="card">
+
+        <h2>Reservas Registradas</h2>
+
+        <!-- Buscador -->
+        <div class="busqueda">
+
+            <input
+                type="text"
+                id="buscarReserva"
+                placeholder="🔍 Buscar por nombre del cliente...">
+
+        </div>
+
+        <table id="tablaReservas">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Mesa</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Personas</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <footer>
+
+        Sprint 1 • Sistema Web de Gestión de Reservas • 2026
+
+    </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
+
 </html>

@@ -70,6 +70,38 @@ def obtener_reservas():
 
 
 # =========================
+# READ BY ID
+# =========================
+@reservas_bp.route('/reservas/<int:id>', methods=['GET'])
+def obtener_reserva(id):
+
+    try:
+
+        conexion = conectar()
+        cursor = conexion.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT *
+            FROM reservas
+            WHERE id_reserva=%s
+        """, (id,))
+
+        reserva = cursor.fetchone()
+
+        if not reserva:
+            return {"error": "Reserva no encontrada"}, 404
+
+        for key, value in reserva.items():
+            reserva[key] = str(value)
+
+        conexion.close()
+
+        return reserva
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# =========================
 # UPDATE
 # =========================
 @reservas_bp.route('/reservas/<int:id>', methods=['PUT'])
